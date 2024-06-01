@@ -70,21 +70,22 @@ int    *stack_to_arr(t_list *stack)
     return arr;
 }
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	t_list	*ls;
-
-	if (!lst || !new)
+	if (new == NULL || !lst)
+	{
 		return ;
-	ls = *lst;
+	}
 	if (*lst == NULL)
 	{
 		*lst = new;
 		return ;
 	}
-	while (ls->next)
-		ls = ls->next;
-	ls->next = new;
+	if (*lst)
+	{
+		new->next = *lst;
+		*lst = new;
+	}
 }
 int  *find_lis(t_list *stack)
 {
@@ -123,7 +124,7 @@ int  *find_lis(t_list *stack)
     t_list *sub = NULL;
     while (pos != -1) 
     {
-        ft_lstadd_back(&sub,ft_lstnew(sta[pos]));
+        ft_lstadd_front(&sub,ft_lstnew(sta[pos]));
         pos = p[pos];
     }
     t_list *temp = sub;
@@ -132,7 +133,7 @@ int  *find_lis(t_list *stack)
         printf("%d\n",temp->content);
         temp = temp->next;
     }
-    return p;
+    return sub;
 }
 
 int main()
